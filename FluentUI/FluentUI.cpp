@@ -12,16 +12,16 @@
 //#include "FluCaptcha.h"
 #include "FluTreeModel.h"
 #include "FluRectangle.h"
-#include "FluQrCodeItem.h"
+//#include "FluQrCodeItem.h"
 #include "FluTableSortProxyModel.h"
 #include "FluFrameless.h"
 #include "FluTableModel.h"
 #include "FluHotkey.h"
-#include "qmlcustomplot/TimePlot.h"
-#include "qmlcustomplot/baseplot.h"
-#include "qmlcustomplot/axis.h"
-#include "qmlcustomplot/ticker.h"
-#include "qmlcustomplot/grid.h"
+//#include "qmlcustomplot/TimePlot.h"
+//#include "qmlcustomplot/baseplot.h"
+//#include "qmlcustomplot/axis.h"
+//#include "qmlcustomplot/ticker.h"
+//#include "qmlcustomplot/grid.h"
 
 void FluentUI::registerTypes(QQmlEngine *engine) {
     initializeEngine(engine, _uri);
@@ -34,8 +34,8 @@ void FluentUI::registerTypes(const char *uri) const {
     int major = _major;
     int minor = _minor;
     //@uri FluentUI
-    qmlRegisterType<FluQrCodeItem>(uri, major, minor, "FluQrCodeItem");
-    qmlRegisterType<FluCaptcha>(uri, major, minor, "FluCaptcha");
+    //qmlRegisterType<FluQrCodeItem>(uri, major, minor, "FluQrCodeItem");
+    //qmlRegisterType<FluCaptcha>(uri, major, minor, "FluCaptcha");
     qmlRegisterType<FluWatermark>(uri, major, minor, "FluWatermark");
     qmlRegisterType<FluAccentColor>(uri, major, minor, "FluAccentColor");
     qmlRegisterType<FluTreeModel>(uri, major, minor, "FluTreeModel");
@@ -45,12 +45,12 @@ void FluentUI::registerTypes(const char *uri) const {
     qmlRegisterType<FluHotkey>(uri, major, minor, "FluHotkey");
     qmlRegisterType<FluTableSortProxyModel>(uri, major, minor, "FluTableSortProxyModel");
 
-    qmlRegisterType<QmlQCustomPlot::TimePlot>(uri, major, minor, "TimePlot");
-    qmlRegisterType<QmlQCustomPlot::BasePlot>(uri, major, minor, "BasePlot");
+    //qmlRegisterType<QmlQCustomPlot::TimePlot>(uri, major, minor, "TimePlot");
+    //qmlRegisterType<QmlQCustomPlot::BasePlot>(uri, major, minor, "BasePlot");
 
-    qmlRegisterUncreatableType<QmlQCustomPlot::Axis>(uri, major, minor, "Axis", "");
-    qmlRegisterUncreatableType<QmlQCustomPlot::Ticker>(uri, major, minor, "Ticker", "");
-    qmlRegisterUncreatableType<QmlQCustomPlot::Grid>(uri, major, minor, "PlotGrid", "");
+    //qmlRegisterUncreatableType<QmlQCustomPlot::Axis>(uri, major, minor, "Axis", "");
+    //qmlRegisterUncreatableType<QmlQCustomPlot::Ticker>(uri, major, minor, "Ticker", "");
+    //qmlRegisterUncreatableType<QmlQCustomPlot::Grid>(uri, major, minor, "PlotGrid", "");
 
     qmlRegisterType(QUrl("qrc:/qt/qml/FluentUI/Controls/FluAcrylic.qml"), uri, major, minor, "FluAcrylic");
     qmlRegisterType(QUrl("qrc:/qt/qml/FluentUI/Controls/FluAppBar.qml"), uri, major, minor, "FluAppBar");
