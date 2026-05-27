@@ -18,17 +18,17 @@ FluLauncher {
     }
 
     Component.onCompleted: {
+        console.log("App.qml Component.onCompleted started")
+        
         FluApp.init(app)
+        console.log("FluApp.init completed")
 
         FluApp.useSystemAppBar = false
-
         FluApp.windowIcon = "qrc:/res/images/favicon.ico"
 
         FluTheme.darkMode = SettingsHelper.getDarkMode()
         GlobalModel.isAlwaysCapLock = SettingsHelper.getCapLock()
-
-        // 是否开机自启动
-        GlobalModel.isAutoStart = SettingsHelper.getAutoStart();
+        GlobalModel.isAutoStart = SettingsHelper.getAutoStart()
 
         var openCount = SettingsHelper.getOpenCount()
         openCount += 1
@@ -44,7 +44,7 @@ FluLauncher {
             const obj = JSON.parse(jsonStr);
             GlobalModel.exeInfos = obj
         } catch (e) {
-
+            console.log("Error loading settings:", e)
         }
 
         FluTheme.animationEnabled = true
@@ -52,6 +52,8 @@ FluLauncher {
         FluRouter.routes = {
             "/": "qrc:/qml/window/MainWindow.qml",
         }
+        console.log("Routes set, navigating to /")
         FluRouter.navigate("/")
+        console.log("Navigate completed")
     }
 }
