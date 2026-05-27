@@ -31,7 +31,7 @@ jobs:
         set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
         mkdir build
         cd build
-        cmake .. -DCMAKE_PREFIX_PATH=D:\Qt\6.6.3\msvc2019_64 -DCMAKE_BUILD_TYPE=Release -GNinja -DFLUENTUI_QML_PLUGIN_DIRECTORY=%cd%\bin\Release\qml\FluentUI
+        cmake .. -DCMAKE_PREFIX_PATH=D:\Qt\6.6.3\msvc2019_64 -DCMAKE_BUILD_TYPE=Release -GNinja -DFLUENTUI_QML_PLUGIN_DIRECTORY=%cd%\..\bin\Release\qml\FluentUI
     
     - name: Build
       shell: cmd
@@ -40,17 +40,22 @@ jobs:
         cd build
         ninja
     
+    - name: Show output directories
+      shell: cmd
+      run: |
+        dir bin\Release\
+    
     - name: Run windeployqt
       shell: cmd
       run: |
         set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
-        windeployqt build\bin\Release\AlwaysEnglish.exe --qmldir=src\qml --no-translations --compiler-runtime
+        windeployqt bin\Release\AlwaysEnglish.exe --qmldir=src\qml --no-translations --compiler-runtime
     
     - name: Create dist directory
       shell: cmd
       run: |
         mkdir dist
-        xcopy build\bin\Release\ dist\ /E /H /C /I
+        xcopy bin\Release\ dist\ /E /H /C /I
     
     - name: List dist contents
       shell: cmd
