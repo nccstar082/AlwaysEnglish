@@ -16,6 +16,11 @@ jobs:
       with:
         submodules: 'recursive'
     
+    - name: Update submodules
+      shell: cmd
+      run: |
+        git submodule update --init --recursive
+    
     - name: Install Qt 6.6.3 using Aqtinstall
       shell: cmd
       run: |
@@ -31,7 +36,7 @@ jobs:
         set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
         mkdir build
         cd build
-        cmake .. -DCMAKE_PREFIX_PATH=D:\Qt\6.6.3\msvc2019_64 -DCMAKE_BUILD_TYPE=Release -GNinja -DFLUENTUI_BUILD_STATIC_LIB=ON 2>&1
+        cmake .. -DCMAKE_PREFIX_PATH=D:\Qt\6.6.3\msvc2019_64 -DCMAKE_BUILD_TYPE=Release -GNinja -DFLUENTUI_BUILD_STATIC_LIB=ON
     
     - name: Build
       shell: cmd
