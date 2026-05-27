@@ -33,19 +33,19 @@ jobs:
         cd build
         cmake .. -DCMAKE_PREFIX_PATH=D:\Qt\6.6.3\msvc2019_64 -DCMAKE_BUILD_TYPE=Release -GNinja -DFLUENTUI_BUILD_STATIC_LIB=ON 2>&1
     
-    - name: Build with verbose output
+    - name: Build
       shell: cmd
       run: |
         set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
         cd build
-        ninja -v 2>&1 | head -200
+        ninja
     
     - name: Deploy Qt dependencies
       shell: cmd
       run: |
         set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
         mkdir dist
-        copy build\bin\Release\AlwaysEnglish.exe dist\
+        copy bin\Release\AlwaysEnglish.exe dist\
         windeployqt dist\AlwaysEnglish.exe --qmldir=src\qml --plugindir dist\plugins --no-translations --compiler-runtime
     
     - name: Upload artifact
