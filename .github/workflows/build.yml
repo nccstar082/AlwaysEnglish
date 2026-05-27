@@ -16,11 +16,11 @@ jobs:
       with:
         submodules: 'recursive'
     
-    - name: Install Qt using Aqtinstall
+    - name: Install full Qt using Aqtinstall
       shell: cmd
       run: |
         pip install aqtinstall
-        aqt install-qt windows desktop 6.6.3 win64_msvc2019_64 --outputdir D:\Qt -m qtdeclarative qtshadertools qt5compat qtsvg
+        aqt install-qt windows desktop 6.6.3 win64_msvc2019_64 --outputdir D:\Qt
     
     - name: Configure and Build
       shell: cmd
