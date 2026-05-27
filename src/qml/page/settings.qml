@@ -49,7 +49,9 @@ FluScrollablePage {
 
         FluCheckBox {
             id: _autoStart
-            text: qsTr("开机自动运行")
+
+            text: qsTr("Running at start")
+            anchors.top: _isAlwaysCapLock.bottom
             anchors.verticalCenter: parent.verticalCenter
 
             onClicked: {
@@ -69,7 +71,6 @@ FluScrollablePage {
         Layout.topMargin: 20
         height: 50
         padding: 10
-
         FluCheckBox {
             id: _isAlwaysCapLock
             text: qsTr("Whether turn on Cap Lock when AlwaysEnglish is on")
@@ -78,10 +79,10 @@ FluScrollablePage {
                 GlobalModel.isAlwaysCapLock = checked
                 SettingsHelper.saveCapLock(GlobalModel.isAlwaysCapLock)
             }
+        }
 
-            Component.onCompleted: {
-                _isAlwaysCapLock.checked = GlobalModel.isAlwaysCapLock
-            }
+        Component.onCompleted: {
+            _isAlwaysCapLock.checked = GlobalModel.isAlwaysCapLock
         }
     }
 }

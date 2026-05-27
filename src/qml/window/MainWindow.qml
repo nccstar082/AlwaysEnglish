@@ -14,15 +14,8 @@ FluWindow {
     height: 668
     minimumWidth: 668
     minimumHeight: 320
-    visible: true
 
     launchMode: FluWindowType.SingleTask
-
-    Component.onCompleted: {
-        window.show()
-        window.raise()
-        window.requestActivate()
-    }
 
     appBar: FluAppBar {
         icon: window.windowIcon

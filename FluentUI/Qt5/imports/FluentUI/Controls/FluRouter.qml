@@ -64,12 +64,6 @@ QtObject {
             }
         }
         win  = windowComponent.createObject(null,properties)
-        if(win){
-            addWindow(win)
-            win.show()
-            win.raise()
-            win.requestActivate()
-        }
         if(windowRegister){
             windowRegister._to = win
         }

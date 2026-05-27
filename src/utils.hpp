@@ -17,10 +17,6 @@ public:
         auto appPath = QCoreApplication::applicationFilePath();
 
         appPath = appPath.replace("/", "\\");
-        
-        if (appPath.contains(" ")) {
-            appPath = "\"" + appPath + "\"";
-        }
 
         QSettings settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
 

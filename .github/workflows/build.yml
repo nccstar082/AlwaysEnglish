@@ -31,7 +31,7 @@ jobs:
         set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
         mkdir build
         cd build
-        cmake .. -DCMAKE_PREFIX_PATH=D:\Qt\6.6.3\msvc2019_64 -DCMAKE_BUILD_TYPE=Release -GNinja -DFLUENTUI_BUILD_STATIC_LIB=ON
+        cmake .. -DCMAKE_PREFIX_PATH=D:\Qt\6.6.3\msvc2019_64 -DCMAKE_BUILD_TYPE=Release -GNinja
     
     - name: Build
       shell: cmd
@@ -40,12 +40,25 @@ jobs:
         cd build
         ninja
     
-    - name: Build deployment target
+    - name: Create dist directory and copy files
       shell: cmd
       run: |
         set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
-        cd build
-        ninja Script-DeployRelease
+        mkdir dist
+        copy bin\Release\AlwaysEnglish.exe dist\
+    
+    - name: Run windeployqt
+      shell: cmd
+      run: |
+        set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
+        windeployqt dist\AlwaysEnglish.exe --qmldir=src\qml --plugindir dist\plugins --no-translations --compiler-runtime
+    
+    - name: List dist contents
+      shell: cmd
+      run: |
+        dir dist\
+        dir dist\plugins\
+        dir dist\qml\
     
     - name: Upload artifact
       uses: actions/upload-artifact@v4
