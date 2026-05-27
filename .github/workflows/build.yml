@@ -16,28 +16,39 @@ jobs:
       with:
         submodules: 'recursive'
     
-    - name: Install full Qt using Aqtinstall
+    - name: Install Qt 6.6.3 using Aqtinstall
       shell: cmd
       run: |
         pip install aqtinstall
         aqt install-qt windows desktop 6.6.3 win64_msvc2019_64 --outputdir D:\Qt
     
-    - name: Configure and Build
+    - name: Setup MSVC
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        toolset: 14.3
+    
+    - name: Configure CMake
       shell: cmd
       run: |
         set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
         mkdir build
         cd build
-        cmake .. -DCMAKE_PREFIX_PATH=D:\Qt\6.6.3\msvc2019_64 -DCMAKE_BUILD_TYPE=Release -GNinja
+        cmake .. -DCMAKE_PREFIX_PATH=D:\Qt\6.6.3\msvc2019_64 -DCMAKE_BUILD_TYPE=Release -GNinja -DFLUENTUI_BUILD_STATIC_LIB=ON
+    
+    - name: Build
+      shell: cmd
+      run: |
+        set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
+        cd build
         ninja
     
-    - name: Copy Qt dependencies
+    - name: Deploy Qt dependencies
       shell: cmd
       run: |
         set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
         mkdir dist
-        copy build\dist\AlwaysEnglish.exe dist\
-        windeployqt dist\AlwaysEnglish.exe --qmldir=src\qml
+        copy build\bin\Release\AlwaysEnglish.exe dist\
+        windeployqt dist\AlwaysEnglish.exe --qmldir=src\qml --plugindir dist\plugins --no-translations --compiler-runtime
     
     - name: Upload artifact
       uses: actions/upload-artifact@v4
