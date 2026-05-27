@@ -31,14 +31,14 @@ jobs:
         set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
         mkdir build
         cd build
-        cmake .. -DCMAKE_PREFIX_PATH=D:\Qt\6.6.3\msvc2019_64 -DCMAKE_BUILD_TYPE=Release -GNinja -DFLUENTUI_BUILD_STATIC_LIB=ON
+        cmake .. -DCMAKE_PREFIX_PATH=D:\Qt\6.6.3\msvc2019_64 -DCMAKE_BUILD_TYPE=Release -GNinja -DFLUENTUI_BUILD_STATIC_LIB=ON 2>&1
     
-    - name: Build
+    - name: Build with verbose output
       shell: cmd
       run: |
         set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
         cd build
-        ninja
+        ninja -v 2>&1 | head -200
     
     - name: Deploy Qt dependencies
       shell: cmd
