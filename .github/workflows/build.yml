@@ -31,7 +31,7 @@ jobs:
         set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
         mkdir build
         cd build
-        cmake .. -DCMAKE_PREFIX_PATH=D:\Qt\6.6.3\msvc2019_64 -DCMAKE_BUILD_TYPE=Release -GNinja -DFLUENTUI_QML_PLUGIN_DIRECTORY=%cd%\..\bin\Release\qml\FluentUI
+        cmake .. -DCMAKE_PREFIX_PATH=D:\Qt\6.6.3\msvc2019_64 -DCMAKE_BUILD_TYPE=Release -GNinja
     
     - name: Build
       shell: cmd
@@ -40,17 +40,12 @@ jobs:
         cd build
         ninja
     
-    - name: Run windeployqt
+    - name: Deploy using CMake target
       shell: cmd
       run: |
         set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
-        windeployqt bin\Release\AlwaysEnglish.exe --qmldir=src\qml --no-translations --compiler-runtime
-    
-    - name: Create dist directory
-      shell: cmd
-      run: |
-        mkdir dist
-        xcopy bin\Release\ dist\ /E /H /C /I
+        cd build
+        ninja Script-DeployRelease
     
     - name: List dist contents
       shell: cmd
@@ -62,6 +57,8 @@ jobs:
         dir dist\qml\
         echo === FluentUI QML ===
         dir dist\qml\FluentUI\
+        echo === Plugins ===
+        dir dist\plugins\
     
     - name: Upload artifact
       uses: actions/upload-artifact@v4
