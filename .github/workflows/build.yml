@@ -16,11 +16,6 @@ jobs:
       with:
         submodules: 'recursive'
     
-    - name: Update submodules
-      shell: cmd
-      run: |
-        git submodule update --init --recursive
-    
     - name: Install Qt 6.6.3 using Aqtinstall
       shell: cmd
       run: |
@@ -45,13 +40,12 @@ jobs:
         cd build
         ninja
     
-    - name: Deploy Qt dependencies
+    - name: Build deployment target
       shell: cmd
       run: |
         set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
-        mkdir dist
-        copy bin\Release\AlwaysEnglish.exe dist\
-        windeployqt dist\AlwaysEnglish.exe --qmldir=src\qml --plugindir dist\plugins --no-translations --compiler-runtime
+        cd build
+        ninja Script-DeployRelease
     
     - name: Upload artifact
       uses: actions/upload-artifact@v4
