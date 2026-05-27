@@ -16,6 +16,11 @@ jobs:
       with:
         submodules: 'recursive'
     
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
@@ -24,22 +29,26 @@ jobs:
         target: 'desktop'
         arch: 'win64_msvc2019_64'
         modules: 'qtquick qtqml qtshadertools qt5compat qtsvg'
+        setup-python: false
     
     - name: Configure CMake
+      shell: powershell
       run: |
-        mkdir -p build
+        New-Item -ItemType Directory -Force -Path build | Out-Null
         cd build
         cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
     
     - name: Build
+      shell: powershell
       run: |
         cd build
         ninja
     
     - name: Copy Qt dependencies
+      shell: powershell
       run: |
-        mkdir -p dist
-        cp build/dist/AlwaysEnglish.exe dist/
+        New-Item -ItemType Directory -Force -Path dist | Out-Null
+        Copy-Item -Path build/dist/AlwaysEnglish.exe -Destination dist/ -Force
         windeployqt dist/AlwaysEnglish.exe --qmldir=src/qml
     
     - name: Upload artifact
