@@ -40,11 +40,6 @@ jobs:
         cd build
         ninja
     
-    - name: Show output directories
-      shell: cmd
-      run: |
-        dir bin\Release\
-    
     - name: Run windeployqt
       shell: cmd
       run: |
@@ -60,9 +55,13 @@ jobs:
     - name: List dist contents
       shell: cmd
       run: |
-        dir dist\
+        echo === Root files ===
+        dir dist\*.exe
+        dir dist\*.dll
+        echo === QML directory ===
         dir dist\qml\
-        dir dist\plugins\
+        echo === FluentUI QML ===
+        dir dist\qml\FluentUI\
     
     - name: Upload artifact
       uses: actions/upload-artifact@v4
