@@ -16,40 +16,37 @@ jobs:
       with:
         submodules: 'recursive'
     
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-    
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v4
-      with:
-        version: '6.6.3'
-        host: 'windows'
-        target: 'desktop'
-        arch: 'win64_msvc2019_64'
-        modules: 'qtquick qtqml qtshadertools qt5compat qtsvg'
-        setup-python: false
-    
-    - name: Configure CMake
-      shell: powershell
+    - name: Check environment
+      shell: cmd
       run: |
-        New-Item -ItemType Directory -Force -Path build | Out-Null
-        cd build
-        cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
+        echo PATH=%PATH%
+        where cmake
+        where ninja
+        where python
     
-    - name: Build
-      shell: powershell
+    - name: Install Qt using Aqtinstall
+      shell: cmd
       run: |
+        pip install aqtinstall
+        aqt install-qt windows desktop 6.6.3 win64_msvc2019_64 --outputdir D:\Qt
+        aqt install-qt windows desktop 6.6.3 win64_msvc2019_64 qtquick qtqml qtshadertools qt5compat qtsvg --outputdir D:\Qt
+    
+    - name: Configure and Build
+      shell: cmd
+      run: |
+        set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
+        mkdir build
         cd build
+        cmake .. -DCMAKE_PREFIX_PATH=D:\Qt\6.6.3\msvc2019_64 -DCMAKE_BUILD_TYPE=Release -GNinja
         ninja
     
     - name: Copy Qt dependencies
-      shell: powershell
+      shell: cmd
       run: |
-        New-Item -ItemType Directory -Force -Path dist | Out-Null
-        Copy-Item -Path build/dist/AlwaysEnglish.exe -Destination dist/ -Force
-        windeployqt dist/AlwaysEnglish.exe --qmldir=src/qml
+        set PATH=D:\Qt\6.6.3\msvc2019_64\bin;%PATH%
+        mkdir dist
+        copy build\dist\AlwaysEnglish.exe dist\
+        windeployqt dist\AlwaysEnglish.exe --qmldir=src\qml
     
     - name: Upload artifact
       uses: actions/upload-artifact@v4
