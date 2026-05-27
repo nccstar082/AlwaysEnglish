@@ -1,0 +1,49 @@
+name: Build AlwaysEnglish
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2022
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+    
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: '6.6.3'
+        host: 'windows'
+        target: 'desktop'
+        arch: 'win64_msvc2019_64'
+        modules: 'qtquick qtqml qtshadertools qt5compat qtsvg'
+    
+    - name: Configure CMake
+      run: |
+        mkdir -p build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja
+    
+    - name: Build
+      run: |
+        cd build
+        ninja
+    
+    - name: Copy Qt dependencies
+      run: |
+        mkdir -p dist
+        cp build/dist/AlwaysEnglish.exe dist/
+        windeployqt dist/AlwaysEnglish.exe --qmldir=src/qml
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: AlwaysEnglish-Win64
+        path: dist/
